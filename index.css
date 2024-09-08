@@ -313,6 +313,9 @@ color: rgb(255, 255, 255);
     background: whitesmoke;
     
 }
+#favorites-page,#profile-section{
+    display: none;
+}
 .list-card{
     display: flex;
     align-items: center;
@@ -523,6 +526,11 @@ color: rgb(255, 255, 255);
         text-align: center;
     }
     
+}
+
+#profile-info p {
+    margin: 0;
+    padding: 5px 0;
 }
 
 @media screen and (max-width : 400px) and (-webkit-min-device-pixel-ratio: 2){

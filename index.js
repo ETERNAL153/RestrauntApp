@@ -315,6 +315,7 @@ function decrementItem(){
             document.getElementById('cart-page').classList.toggle('cart-toggle');
             document.getElementById('category-header').classList.toggle('toggle-category');
             document.getElementById('checkout').classList.toggle('cart-toggle');
+            document.getElementById('profile-section').style.display = 'none'
             flag= false;
             alert("Currently no item in cart!");
             console.log(flag)
@@ -351,6 +352,7 @@ function cartToggle() {
         document.getElementById('food-items').style.display = 'none';
         document.getElementById('category-list').style.display = 'none';
         document.getElementById('category-header').style.display = 'none';
+        document.getElementById('profile-section').style.display = 'none'
 
         flag = true;
         console.log(flag);
@@ -370,6 +372,7 @@ function favoriteToggle() {
         document.getElementById('food-items').style.display = 'none';
         document.getElementById('category-list').style.display = 'none';
         document.getElementById('category-header').style.display = 'none';
+        document.getElementById('profile-section').style.display = 'none'
 
         flag = true;
         console.log(flag);
@@ -436,6 +439,14 @@ function addAddress(){
     var address= prompt('Enter your address','');
     if(address){
         document.getElementById('add-address').innerText= ' ' + address;
+        const userData = localStorage.getItem('user');
+        userData.address = address;
+        localStorage.setItem('user', JSON.stringify({
+            name: userData.name,
+            username: userData.username,
+            password: userData.password,
+            address: userData.address
+        }));
     }
     else{
         alert("Address not added")
@@ -499,6 +510,7 @@ function callHome(){
     document.getElementById('cart-page').style.display = 'none';
     document.getElementById('checkout').style.display = 'none';
     document.getElementById('favorites-page').style.display = 'none';
+    document.getElementById('profile-section').style.display = 'none'
 }
 document.getElementById('home').addEventListener('click',function(){
     callHome();
@@ -529,3 +541,47 @@ function removeFromFavorite(item) {
     }
     
 }
+// Function to display user profile data
+function displayUserProfile() {
+    // Retrieve user data from localStorage
+    document.getElementById('food-items').style.display='none';
+    document.getElementById('category-list').style.display='none';
+    document.getElementById('category-header').style.display='none';
+    document.getElementById('cart-page').style.display = 'none';
+    document.getElementById('checkout').style.display = 'none';
+    document.getElementById('favorites-page').style.display = 'none';
+    document.getElementById('profile-section').style.display = 'block'
+    const userData = localStorage.getItem('user');
+
+    // Check if user data exists
+    if (userData) {
+        // Parse the JSON data
+        const user = JSON.parse(userData);
+
+        // Get the profile-info container
+        const profileInfo = document.getElementById('profile-info');
+
+        // Create HTML content to display user profile with Bootstrap classes
+        profileInfo.innerHTML = `
+            <div class="mb-3">
+                <p><strong>Name:</strong> ${user.name || 'N/A'}</p>
+            </div>
+            <div class="mb-3">
+                <p><strong>Username:</strong> ${user.username || 'N/A'}</p>
+            </div>
+            <div class="mb-3">
+                <p><strong>Address:</strong> ${user.address || 'N/A'}</p>
+            </div>
+        `;
+    }else {
+        // If no user data found, show a message
+        const profileInfo = document.getElementById('profile-info');
+        profileInfo.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                No profile information found.
+            </div>
+        `;
+    }
+
+ }
+ document.getElementById('circle').addEventListener('click',displayUserProfile)
