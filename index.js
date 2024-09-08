@@ -339,22 +339,44 @@ document.getElementById('cart').addEventListener('click',cartToggle);
 document.getElementById('m-cart-plus').addEventListener('click',cartToggle);
 
 var flag= false;
-function cartToggle(){
-    if(cartData.length > 0){
-        document.getElementById('food-items').classList.toggle('food-items');
-        document.getElementById('category-list').classList.toggle('food-items');
-        document.getElementById('category-header').classList.toggle('toggle-category');
-        document.getElementById('m-cart-plus').classList.toggle('m-cart-toggle')
-        document.getElementById('cart-page').classList.toggle('cart-toggle');
-        document.getElementById('checkout').classList.toggle('cart-toggle');
-        flag= true;
-        console.log(flag)
-    }
-    else{
+
+function cartToggle() {
+    if (cartData.length > 0) {
+        // Hide favorites and show cart
+        document.getElementById('favorites-page').style.display = 'none';
+        document.getElementById('cart-page').style.display = 'block';
+        document.getElementById('checkout').style.display = 'block';
+
+        // Toggle visibility of other sections
+        document.getElementById('food-items').style.display = 'none';
+        document.getElementById('category-list').style.display = 'none';
+        document.getElementById('category-header').style.display = 'none';
+
+        flag = true;
+        console.log(flag);
+    } else {
         alert("Currently no item in cart!");
     }
 }
 
+function favoriteToggle() {
+    if (favoritesData.length > 0) {
+        // Hide cart and show favorites
+        document.getElementById('cart-page').style.display = 'none';
+        document.getElementById('checkout').style.display = 'none';
+        document.getElementById('favorites-page').style.display = 'block';
+
+        // Toggle visibility of other sections
+        document.getElementById('food-items').style.display = 'none';
+        document.getElementById('category-list').style.display = 'none';
+        document.getElementById('category-header').style.display = 'none';
+
+        flag = true;
+        console.log(flag);
+    } else {
+        alert("Currently no item in favorites!");
+    }
+}
 
 
 // window.onresize= window.onload= function(){
@@ -421,10 +443,11 @@ function addAddress(){
 }
 //function to display items in the favorites
 function favoriteItems(){
-    var tableBody=  document.getElementById('table-body');
+    var tableBody=  document.getElementById('favorites-table-body');
     tableBody.innerHTML= '';
 
-    cartData.map(item=> {
+    favoritesData.map(item=> {
+        console.log(item)
         var tableRow= document.createElement('tr');
         
         var rowData1= document.createElement('td');
@@ -437,33 +460,72 @@ function favoriteItems(){
         
         var rowData3= document.createElement('td');
         var btn1= document.createElement('button');
-        btn1.setAttribute('class','decrease-item');
-        btn1.innerText= '-';
-        var span= document.createElement('span');
-        span.innerText= item.quantity;
-        var btn2= document.createElement('button');
-        btn2.setAttribute('class','increase-item');
-        btn2.innerText= '+';
+        btn1.setAttribute('class','fa fa-cart-plus add-to-cart')
+        btn1.addEventListener('click',function(){
+            addToCart(item);
+        })
         
         rowData3.appendChild(btn1);
-        rowData3.appendChild(span);
-        rowData3.appendChild(btn2);
+
     
         var rowData4= document.createElement('td');
         rowData4.innerText= item.price;
+
+        var rowData5= document.createElement('td');
+        var btn2 = document.createElement('button')
+        btn2.setAttribute('class','fa fa-trash remove')
+        btn2.addEventListener('click',function(){
+            removeFromFavorite(item);
+        })
+        rowData5.appendChild(btn2);
     
         tableRow.appendChild(rowData1);
         tableRow.appendChild(rowData2);
         tableRow.appendChild(rowData3);
         tableRow.appendChild(rowData4);
+        tableRow.appendChild(rowData5);
     
         tableBody.appendChild(tableRow);
     })
-    document.querySelectorAll('.increase-item').forEach(item=>{
-        item.addEventListener('click',incrementItem)
-    })
+}
+document.getElementById('wishlist-link').addEventListener('click',function(){
+    favoriteItems();
+    favoriteToggle();
+});
+function callHome(){
+    document.getElementById('food-items').style.display='block';
+    document.getElementById('category-list').style.display='block';
+    document.getElementById('category-header').style.display='block';
+    document.getElementById('cart-page').style.display = 'none';
+    document.getElementById('checkout').style.display = 'none';
+    document.getElementById('favorites-page').style.display = 'none';
+}
+document.getElementById('home').addEventListener('click',function(){
+    callHome();
+});
 
-    document.querySelectorAll('.decrease-item').forEach(item=>{
-        item.addEventListener('click',decrementItem)
-    })
+function removeFromFavorite(item) {
+    // Find the index of the item in the favoritesData array
+    if(favoritesData.length>0){
+    const index = favoritesData.findIndex(favoriteItem => favoriteItem.id === item.id);
+
+    if (index !== -1) {
+        // Remove the item from the favoritesData array
+        document.getElementById('fav-' + item.id).classList.remove('toggle-heart');
+        favoritesData.splice(index, 1);
+
+        // Update the UI to reflect the removal
+        favoriteItems()
+
+
+        // Show a message or feedback to the user
+        if(favoritesData.length<1){
+            callHome()
+        }
+
+    }else {
+        alert("Item not found in favorites!");
+    }
+    }
+    
 }

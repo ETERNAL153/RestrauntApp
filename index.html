@@ -17,10 +17,10 @@
                 <img src="https://pixlok.com/wp-content/uploads/2021/04/Swiggy-App-Logo-PNG-300x300.jpg" alt="">
             </div>
             <div class="menu-item">
+                <a href="#" id="home">Home</a>
                 <a href="#">About</a>
-                <a href="#">Services</a>
                 <a href="#">Your Orders</a>
-                <a href="#">Wishlists</a>
+                <a href="#" id="wishlist-link">Wishlists</a>
                 <a href="#" id="cart">Cart</a>
                 <a href="#">Contact</a>
                 <a href="#">Checkout</a>
@@ -68,31 +68,53 @@
                 </div>
             </div>
 
+            <!-- Cart Page -->
             <div id="cart-page" class="cart-toggle">
                 <p id="cart-title">Cart Items</p>
-                <p id="m-total-amount">Total Amout : 100</p>
+                <p id="m-total-amount">Total Amount: $100</p>
                 <table>
                     <thead>
-                        <td>Item</td>
-                        <td>Name</td>
-                        <td>Quantity</td>
-                        <td>Price</td>
+                        <tr>
+                            <th>Item</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
                     </thead>
                     <tbody id="table-body">
-                        
+                        <!-- Cart items will be dynamically added here -->
                     </tbody>
                 </table>
                 <div class="btn-box">
                     <button class="cart-btn">Checkout</button>
                 </div>
             </div>
+
+            <!-- Favorites Page -->
+            <div id="favorites-page" class="favorites-toggle">
+                <p id="favorites-title">Favorites</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Name</th>
+                            <th>Add to Cart</th>
+                            <th>Price</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody id="favorites-table-body">
+                        <!-- Favorites items will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
+        <!-- Cart Section (Different Layout) -->
         <div id="cart">
             <div class="taste-header">
                 <div class="user">
                     <i class="fa fa-user-circle" id="circle"> Account</i>
-                    
                 </div>
             </div>
             <div id="category-list">
@@ -100,14 +122,13 @@
                 <div class="border"></div>                
             </div>
             <div id="checkout" class="cart-toggle">
-                <p id="total-item">Total Item : 5</p>
+                <p id="total-item">Total Items: 5</p>
                 <p id="total-price"></p>
-                <p id="delievery">Free delievery on $ 40</p>
+                <p id="delivery">Free delivery on $40</p>
                 <button class="cart-btn">Checkout</button>
             </div>
         </div>
     </div>
-
 
     <!-- mobile view -->
     <div id="mobile-view" class="mobile-view">
@@ -153,10 +174,11 @@
         <div class="mobile-footer">
             <p>Home</p>
             <p>Cart</p>
-            <p>offers</p>
-            <p>orders</p>
+            <p>Offers</p>
+            <p>Orders</p>
         </div>
     </div>
+
     <script src="/index.js" type="module"></script>
 </body>
 </html>
