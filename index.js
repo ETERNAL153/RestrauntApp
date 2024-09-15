@@ -1,6 +1,84 @@
-import {foodItem} from './fooditem.js'
+import {foodItem, orders} from './fooditem.js'
 var favoritesData= [];
 var cartData= [];
+
+
+function createOrderCard(order) {
+    const container = document.getElementById('orders');
+    
+    // Create card element using Bootstrap card class
+    
+    const card = document.createElement('div');
+    card.setAttribute('id','order-card')
+    card.className = 'card mb-3 shadow-sm';
+
+    // Create card body
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Create order header using Bootstrap's heading and card-title classes
+    const header = document.createElement('h5');
+    header.className = 'card-title';
+    header.innerText = `Order #${order.orderId}`;
+    cardBody.appendChild(header);
+
+    // Create order details section
+    const details = document.createElement('p');
+    details.className = 'card-text';
+    details.innerHTML = `<strong>Address:</strong> ${order.deliveryAddress}<br>
+                         <strong>Date Ordered:</strong> ${order.dateOrdered}`;
+    cardBody.appendChild(details);
+
+    // Create items ordered list
+    const itemsList = document.createElement('ul');
+    itemsList.className = 'list-group list-group-flush mb-3'; // Add spacing between list and total price
+    // Create items title
+    const itemsTitle = document.createElement('strong');
+    itemsTitle.innerText = 'Items:';
+    cardBody.appendChild(itemsTitle);
+    order.itemsOrdered.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.innerText = `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}`;
+        itemsList.appendChild(listItem);
+    });
+    cardBody.appendChild(itemsList);
+
+    // Total price
+    const totalPrice = document.createElement('div');
+    totalPrice.className = 'card-footer text-muted';
+    totalPrice.innerHTML = `<strong>Total Price:</strong> ₹${order.totalPrice.toFixed(2)}`;
+    cardBody.appendChild(totalPrice);
+
+    // Order status using Bootstrap badge for highlighting
+    const status = document.createElement('div');
+    status.className = `badge ${getStatusBadgeClass(order.orderStatus)} mt-3`; // Use different colors for different statuses
+    status.innerHTML= `<strong>Order Status:</strong> ${order.orderStatus}`;
+    cardBody.appendChild(status);
+
+    // Append card body to card
+    card.appendChild(cardBody);
+
+    // Append card to container
+    container.insertBefore(card, container.firstChild.nextSibling)
+}
+
+// Helper function to return a class for the order status badge
+function getStatusBadgeClass(status) {
+    switch (status.toLowerCase()) {
+        case 'delivered':
+            return 'bg-success';
+        case 'pending':
+            return 'bg-warning';
+        case 'processing':
+            return 'bg-info';
+        default:
+            return 'bg-secondary';
+    }
+}
+
+
+  
 function createItemCard(item) {
     var itemCard = document.createElement('div');
     itemCard.setAttribute('id', 'item-card');
@@ -118,6 +196,8 @@ function displayItems(){
     var vegetable=  document.getElementById('vegetable');
     var chinese=  document.getElementById('chinese');
     var southIndian=  document.getElementById('south-indian');
+    document.getElementById('orders').style.display = 'none';
+    document.getElementById('checkoutContainer').style.display = 'none';
 
     const biryaniData= foodItem.filter((item)=>item.category=='biryani');
     const chickenData= foodItem.filter((item)=>item.category=='chicken');
@@ -220,7 +300,7 @@ function addToCart(item){
 function cartItems(){
     var tableBody=  document.getElementById('table-body');
     tableBody.innerHTML= '';
-
+    console.log(cartData)
     cartData.map(item=> {
         var tableRow= document.createElement('tr');
         
@@ -316,6 +396,8 @@ function decrementItem(){
             document.getElementById('category-header').classList.toggle('toggle-category');
             document.getElementById('checkout').classList.toggle('cart-toggle');
             document.getElementById('profile-section').style.display = 'none'
+            document.getElementById('orders').style.display = 'none';
+            document.getElementById('checkoutContainer').style.display = 'none';
             flag= false;
             alert("Currently no item in cart!");
             console.log(flag)
@@ -352,7 +434,9 @@ function cartToggle() {
         document.getElementById('food-items').style.display = 'none';
         document.getElementById('category-list').style.display = 'none';
         document.getElementById('category-header').style.display = 'none';
-        document.getElementById('profile-section').style.display = 'none'
+        document.getElementById('profile-section').style.display = 'none';
+        document.getElementById('orders').style.display = 'none';
+        document.getElementById('checkoutContainer').style.display = 'none';
 
         flag = true;
         console.log(flag);
@@ -372,7 +456,9 @@ function favoriteToggle() {
         document.getElementById('food-items').style.display = 'none';
         document.getElementById('category-list').style.display = 'none';
         document.getElementById('category-header').style.display = 'none';
-        document.getElementById('profile-section').style.display = 'none'
+        document.getElementById('profile-section').style.display = 'none';
+        document.getElementById('orders').style.display = 'none';
+        document.getElementById('checkoutContainer').style.display = 'none';
 
         flag = true;
         console.log(flag);
@@ -435,23 +521,35 @@ document.getElementById('search-input').addEventListener('input', function(e) {
 });
 
 //function to store address
-function addAddress(){
-    var address= prompt('Enter your address','');
-    if(address){
-        document.getElementById('add-address').innerText= ' ' + address;
-        const userData = localStorage.getItem('user');
-        userData.address = address;
-        localStorage.setItem('user', JSON.stringify({
-            name: userData.name,
-            username: userData.username,
-            password: userData.password,
-            address: userData.address
-        }));
-    }
-    else{
-        alert("Address not added")
+function addAddress() {
+    var address = prompt('Enter your address');
+    if (address != null) {
+        // Update the displayed address
+        document.getElementById('add-address').innerText = ' ' + address;
+
+        // Retrieve the user data from localStorage
+        let userData = localStorage.getItem('user');
+
+        // Check if userData exists
+        if (userData) {
+            // Parse the JSON string into an object
+            let userObject = JSON.parse(userData);
+
+            // Update the address property
+            userObject.address = address;
+
+            // Convert the object back to a JSON string and save it to localStorage
+            localStorage.setItem('user', JSON.stringify(userObject));
+
+            console.log(localStorage.getItem('user')); // Log the updated user data
+        } else {
+            console.error('No user data found in localStorage.');
+        }
+    } else {
+        alert("Address not added");
     }
 }
+
 //function to display items in the favorites
 function favoriteItems(){
     var tableBody=  document.getElementById('favorites-table-body');
@@ -511,6 +609,8 @@ function callHome(){
     document.getElementById('checkout').style.display = 'none';
     document.getElementById('favorites-page').style.display = 'none';
     document.getElementById('profile-section').style.display = 'none'
+    document.getElementById('orders').style.display = 'none';
+    document.getElementById('checkoutContainer').style.display = 'none';
 }
 document.getElementById('home').addEventListener('click',function(){
     callHome();
@@ -541,6 +641,35 @@ function removeFromFavorite(item) {
     }
     
 }
+function displayOrderItems(){
+    const container = document.getElementById('orders');
+    container.innerHTML = '';
+    document.getElementById('food-items').style.display='none';
+    document.getElementById('category-list').style.display='none';
+    document.getElementById('category-header').style.display='none';
+    document.getElementById('cart-page').style.display = 'none';
+    document.getElementById('checkout').style.display = 'none';
+    document.getElementById('favorites-page').style.display = 'none';
+    document.getElementById('profile-section').style.display = 'none';
+    document.getElementById('orders').style.display = 'block';
+    document.getElementById('checkoutContainer').style.display = 'none';
+    
+    if(orders.length>0){
+        const title = document.createElement('div')
+        title.id = 'orders-title';
+        title.innerHTML = 'Orders';
+        container.append(title)
+        title.className = 'container-sm'
+        orders.forEach(order => {
+            createOrderCard(order)
+        })
+    }
+    else{
+        alert("Item not found in orders!");
+    }
+    
+
+}
 // Function to display user profile data
 function displayUserProfile() {
     // Retrieve user data from localStorage
@@ -551,6 +680,8 @@ function displayUserProfile() {
     document.getElementById('checkout').style.display = 'none';
     document.getElementById('favorites-page').style.display = 'none';
     document.getElementById('profile-section').style.display = 'block'
+    document.getElementById('orders').style.display = 'none';
+    document.getElementById('checkoutContainer').style.display = 'none';
     const userData = localStorage.getItem('user');
 
     // Check if user data exists
@@ -584,4 +715,125 @@ function displayUserProfile() {
     }
 
  }
+
+ function showOrderPopup(order) {
+    const orderDetailsContainer = document.getElementById('orderDetailsContainer');
+    
+    // Clear existing content
+    orderDetailsContainer.innerHTML = '';
+
+    // Create order details elements with Bootstrap classes
+    const orderDetailsHtml = `
+        <div class="mb-3">
+            <h4 class="text-primary">Order #${order.orderId}</h4>
+            <p><strong>Customer Name:</strong> ${order.customerName}</p>
+            <p><strong>Address:</strong> ${order.deliveryAddress}</p>
+            <p><strong>Date Ordered:</strong> ${order.dateOrdered}</p>
+        </div>
+
+        <div class="mb-4">
+            <h5 class="text-secondary">Items Ordered:</h5>
+            <ul class="list-group mb-3">
+                ${order.itemsOrdered.map(item => `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${item.name} x${item.quantity}
+                        <span class="badge badge-primary badge-pill">₹${(item.price / item.quantity).toFixed(2)}</span>
+                    </li>
+                `).join('')}
+            </ul>
+            <p class="font-weight-bold">Total Price: ₹${order.totalPrice.toFixed(2)}</p>
+        </div>
+
+        <div class="mb-3">
+            <p><strong>Order Status:</strong> 
+                <span class="badge badge-${order.orderStatus === 'Delivered' ? 'success' : 'warning'}">
+                    ${order.orderStatus}
+                </span>
+            </p>
+        </div>
+    `;
+
+    // Set the content of the popup
+    orderDetailsContainer.innerHTML = orderDetailsHtml;
+}
+
+let selectedOrder = {};
+function handleCheckoutClick(event) {
+    // Prevent default action for anchor tags
+    if(cartData.length>0){
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+        }
+        document.getElementById('food-items').style.display='none';
+        document.getElementById('category-list').style.display='none';
+       document.getElementById('category-header').style.display='none';
+       document.getElementById('cart-page').style.display = 'none';
+       document.getElementById('checkout').style.display = 'none';
+       document.getElementById('favorites-page').style.display = 'none';
+       document.getElementById('profile-section').style.display = 'none'
+       document.getElementById('orders').style.display = 'none';
+       document.getElementById('checkoutContainer').style.display = 'block';
+        const userData = localStorage.getItem('user');
+        const user = JSON.parse(userData);
+        const now = new Date();
+        const isoString = now.toISOString();
+        // Assume you have a function to get the selected order
+        selectedOrder = {
+            orderId: generateOrderId(),
+            customerName: user.name,
+            deliveryAddress: user.address,
+            dateOrdered: isoString,
+            itemsOrdered: cartData,
+            totalPrice: calculateTotalPrice(cartData),
+            orderStatus: 'Pending'
+        };
+    
+        // Show the popup with order details
+        showOrderPopup(selectedOrder);
+    }
+    else{
+        alert('cart is empty to checkout')
+    }
+}
+function calculateTotalPrice(items) {
+    return items.reduce((total, item) => total + item.price, 0);
+}
+function generateOrderId() {
+    return Math.floor(Math.random() * 10000); // Simple random ID for demonstration
+}
+function addOrderToDataset(selectedOrder){
+    if(selectedOrder!=null){
+        orders.push(selectedOrder);
+        alert('Order placed successfully')
+    }
+    else{
+
+    }
+}
+
  document.getElementById('circle').addEventListener('click',displayUserProfile)
+ document.getElementById('order').addEventListener('click',displayOrderItems)
+ document.querySelectorAll('.checkout-btn').forEach(button => {
+    button.addEventListener('click', handleCheckoutClick);
+});
+
+document.querySelector('#confirmOrderBtn').addEventListener('click', function() {
+    // Add the order to the orders dataset (replace this with your actual logic)
+    addOrderToDataset(selectedOrder);
+    // Select all elements with the class 'fa fa-cart-plus add-to-cart toggle-heart'
+    const elements = document.querySelectorAll('.fa.fa-cart-plus.add-to-cart.toggle-heart');
+    const cart = document.getElementById('cart-plus')
+    cart.innerHTML = ' 0 Items'
+// Iterate over the selected elements
+    elements.forEach(element => {
+    // Remove the 'toggle-heart' class
+        element.classList.remove('toggle-heart');
+    });
+    cartData = [];
+    
+    // Hide the modal
+    $('#checkoutModal').modal('hide');
+    console.log('hello')
+    displayOrderItems();
+});
+

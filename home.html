@@ -7,6 +7,8 @@
     <title>Food Website</title>
     <link rel="stylesheet" href="/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -18,12 +20,10 @@
             </div>
             <div class="menu-item">
                 <a href="#" id="home">Home</a>
-                <a href="#">About</a>
-                <a href="#">Your Orders</a>
+                <a href="#" id="order" >Your Orders</a>
                 <a href="#" id="wishlist-link">Wishlists</a>
                 <a href="#" id="cart">Cart</a>
-                <a href="#">Contact</a>
-                <a href="#">Checkout</a>
+                <a href="#" class='checkout-btn' >Checkout</a>
                 <a href="https://www.youtube.com/@Cookwithpramod">Watch our cooking here</a>
             </div>
         </div>
@@ -35,7 +35,6 @@
                 </div>
                 <div class="util">
                     <input type="text" class="search-box" id="search-input" placeholder="Search for food items..." />
-                    <i class="fa fa-tags"> Offers</i>
                     <i class="fa fa-cart-plus" id="cart-plus"> 0 Items</i>
                 </div>
             </div>
@@ -86,10 +85,13 @@
                     </tbody>
                 </table>
                 <div class="btn-box">
-                    <button class="cart-btn">Checkout</button>
+                    <button class="checkout-btn cart-btn">Checkout</button>
                 </div>
             </div>
-
+            <!-- Orders Section (Different Layout) -->
+            <div id="orders" class="container mt-5">
+                <p id="orders-title">Orders</p>
+            </div>
             <!-- Favorites Page -->
             <div id="favorites-page" class="favorites-toggle">
                 <p id="favorites-title">Favorites</p>
@@ -123,6 +125,22 @@
                 </div>
             </div>
             </div>
+            <div id="checkoutContainer" class="container mt-5">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h1 class="h5 mb-0">Order Summary</h1>
+                    </div>
+                    <div class="card-body">
+                        <div id="orderDetailsContainer">
+                            <!-- Your order details will be inserted here dynamically -->
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" onclick="hideOrderSummary()">Cancel</button>
+                        <button type="button" id="confirmOrderBtn" class="btn btn-primary">Confirm Order</button>
+                    </div>
+                </div>
+            </div>
         </div>
         
 
@@ -141,12 +159,12 @@
                 <p id="total-item">Total Items: 5</p>
                 <p id="total-price"></p>
                 <p id="delivery">Free delivery on $40</p>
-                <button class="cart-btn">Checkout</button>
+                <button class="checkout-btn cart-btn">Checkout</button>
             </div>
         </div>
-        
     </div>
 
+    
     <!-- mobile view -->
     <div id="mobile-view" class="mobile-view">
         <div class="mobile-top">
@@ -191,11 +209,11 @@
         <div class="mobile-footer">
             <p>Home</p>
             <p>Cart</p>
-            <p>Offers</p>
             <p>Orders</p>
         </div>
     </div>
-
+    <!-- Popup Modal -->
+    
     <script src="/index.js" type="module"></script>
 </body>
 </html>

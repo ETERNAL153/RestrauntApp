@@ -400,5 +400,44 @@ const foodItem= [
     quantity: 1
 },
 ]
+const orders = [
+    {
+        orderId: 1,
+        customerName: 'John Doe',
+        itemsOrdered: [
+            { ...foodItem[0], quantity: 2 },  // Ambur Biryani (2 portions)
+            { ...foodItem[9], quantity: 1 }   // Chicken Roast (1 portion)
+        ],
+        totalPrice: (foodItem[0].price * 2) + (foodItem[9].price * 1),
+        orderStatus: 'Delivered',
+        deliveryAddress: '123 Main St, Springfield',
+        dateOrdered: '2024-09-15'
+    },
+    {
+        orderId: 2,
+        customerName: 'Jane Smith',
+        itemsOrdered: [
+            { ...foodItem[16], quantity: 1 }, // Matar Paneer (1 portion)
+            { ...foodItem[26], quantity: 3 }  // Veg Curry (3 portions)
+        ],
+        totalPrice: (foodItem[16].price * 1) + (foodItem[26].price * 3),
+        orderStatus: 'Pending',
+        deliveryAddress: '456 Elm St, Springfield',
+        dateOrdered: '2024-09-15'
+    },
+    {
+        orderId: 3,
+        customerName: 'Michael Johnson',
+        itemsOrdered: [
+            { ...foodItem[2], quantity: 1 },  // Egg Biryani (1 portion)
+            { ...foodItem[12], quantity: 2 }, // Chicken Do Pyaza (2 portions)
+            { ...foodItem[34], quantity: 3 }  // Spring Roll (3 portions)
+        ],
+        totalPrice: (foodItem[2].price * 1) + (foodItem[12].price * 2) + (foodItem[34].price * 3),
+        orderStatus: 'Processing',
+        deliveryAddress: '789 Oak St, Springfield',
+        dateOrdered: '2024-09-15'
+    }
+];
 
-export {foodItem};
+export {foodItem,orders};

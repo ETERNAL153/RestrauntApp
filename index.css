@@ -154,6 +154,29 @@ body{
     cursor: pointer;
     transition: 0.5s all step-end;
 }
+#orders p{
+    width: 100%;
+}
+#order-card{
+    width: 220px;
+    height: 330px;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 5px;
+    background: rgb(240,255,240);
+    cursor: pointer;
+    transition: 0.5s all step-end;
+    overflow: hidden;
+    overflow-y: auto;
+
+}
+#order-card:hover{
+    transform: scale(1.1);
+    background: rgb(253, 221, 226);
+  
+}
+
 #item-card:hover img{
     transform: scale(1.2);
 }
@@ -206,7 +229,7 @@ color: rgb(255, 255, 255);
     font-size: 18px;
 }
 
-.food-items{
+.food-items, #checkoutContainer{
     display: none;
 }
 .cart-toggle{
@@ -223,7 +246,7 @@ color: rgb(255, 255, 255);
     padding-bottom: 30px;
     position: relative;
 }
-#cart-title,#favorites-title{
+#cart-title,#favorites-title,#orders-title{
     font-size: 35px;
     margin: 0;
     color: indianred;
@@ -236,6 +259,11 @@ color: rgb(255, 255, 255);
 #cart-page table th td, #favorites-page  table th td{
     font-size: 25px;
     padding-bottom: 10px;
+}
+
+
+.card-footer {
+    font-weight: bold;
 }
 
 .cart-btn{
@@ -313,7 +341,7 @@ color: rgb(255, 255, 255);
     background: whitesmoke;
     
 }
-#favorites-page,#profile-section{
+#favorites-page,#profile-section, #orders{
     display: none;
 }
 .list-card{
@@ -527,6 +555,75 @@ color: rgb(255, 255, 255);
     }
     
 }
+/* Style the orders container */
+#orders {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Spacing between each order card */
+    padding: 1rem; /* Padding around the container */
+    max-width: 800px; /* Maximum width of the orders section */
+    margin: 0 auto; /* Center the container */
+}
+
+/* Style each order card */
+.order-card {
+    border: 1px solid #ddd; /* Border color */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    background-color: #fff; /* White background */
+    padding: 1.5rem; /* Padding inside the card */
+    overflow-y: auto;
+}
+
+/* Header of the order card */
+.order-header {
+    font-size: 1.25rem; /* Larger font size for header */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 1rem; /* Space below the header */
+}
+
+/* Order details section */
+.order-details {
+    margin-bottom: 1rem; /* Space below the details */
+    font-size: 0.875rem; /* Slightly smaller font size */
+    color: #666; /* Gray text color */
+}
+
+/* List of ordered items */
+.order-items {
+    list-style-type: none; /* Remove default list styling */
+    padding-left: 0; /* Remove padding */
+    margin-bottom: 1rem; /* Space below the list */
+}
+
+.order-items li {
+    padding: 0.5rem 0; /* Padding for each list item */
+    border-bottom: 1px solid #eee; /* Border between items */
+}
+
+/* Total price section */
+.total-price {
+    font-weight: bold; /* Bold text */
+    font-size: 1rem; /* Standard font size */
+    margin-bottom: 1rem; /* Space below the price */
+}
+
+/* Order status section */
+.order-status {
+    padding: 0.25rem 0.5rem; /* Padding inside status */
+    border-radius: 0.25rem; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* White text */
+    text-align: center; /* Center align text */
+    display: inline-block; /* Inline-block for alignment */
+}
+
+/* Status badge colors */
+.order-status.bg-success { background-color: #28a745; }
+.order-status.bg-warning { background-color: #ffc107; }
+.order-status.bg-info { background-color: #17a2b8; }
+.order-status.bg-secondary { background-color: #6c757d; }
+
 
 #profile-info p {
     margin: 0;
