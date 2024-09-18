@@ -601,8 +601,25 @@ document.getElementById('wishlist-link').addEventListener('click',function(){
     favoriteItems();
     favoriteToggle();
 });
+// function setTitle(){
+//     var biryani= document.getElementById('biryani');
+//     var paneer=  document.getElementById('paneer');;
+//     var chicken=  document.getElementById('chicken');
+//     var vegetable=  document.getElementById('vegetable');
+//     var chinese=  document.getElementById('chinese');
+//     var southIndian=  document.getElementById('south-indian');
+
+//     const p = document.createElement(p);
+//     p.id= 'category-name';
+//     p.innerText = 'Biryani';
+//     biryani.append(p);
+
+// }
+
 function callHome(){
+    document.getElementById('search-input').value = '';
     document.getElementById('food-items').style.display='block';
+    document.getElementById('search-result').innerHTML = '';
     document.getElementById('category-list').style.display='block';
     document.getElementById('category-header').style.display='block';
     document.getElementById('cart-page').style.display = 'none';
@@ -611,6 +628,7 @@ function callHome(){
     document.getElementById('profile-section').style.display = 'none'
     document.getElementById('orders').style.display = 'none';
     document.getElementById('checkoutContainer').style.display = 'none';
+    displayItems();
 }
 document.getElementById('home').addEventListener('click',function(){
     callHome();
