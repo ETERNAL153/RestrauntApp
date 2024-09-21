@@ -60,26 +60,12 @@
                 <!-----Cart items added here -->
             </div>
             <!-- Orders Section (Different Layout) -->
-            <div id="orders" hidden class="container mt-5">
+            <div id="orders" class="container mt-5">
                 <p id="orders-title">Orders</p>
             </div>
             <!-- Favorites Page -->
             <div id="favorites-page" class="favorites-toggle">
                 <p id="favorites-title">Favorites</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Name</th>
-                            <th>Add to Cart</th>
-                            <th>Price</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody id="favorites-table-body">
-                        <!-- Favorites items will be dynamically added here -->
-                    </tbody>
-                </table>
             </div>
             <!-- User Profile Section -->
             <div id="profile-section" class="container mt-5">
@@ -107,8 +93,8 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary" onclick="hideOrderSummary()">Cancel</button>
-                        <button type="button" id="confirmOrderBtn" class="btn btn-primary">Confirm Order</button>
+                        <button type="button" class="btn btn-secondary cart-btn" onclick="hideOrderSummary()">Cancel</button>
+                        <button type="button" id="confirmOrderBtn" class="btn btn-primary cart-btn">Confirm Order</button>
                     </div>
                 </div>
             </div>

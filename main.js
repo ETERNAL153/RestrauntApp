@@ -124,11 +124,16 @@ function createItemCard(item,restaurantName) {
     var heart = document.createElement('i');
     heart.setAttribute('class', 'fa fa-heart-o wishlist');
     heart.setAttribute('id', 'fav-' + item.id);
-
     // // Check if the item is already in favorites
-    // if(favoritesData[restaurantName].some(favItem => favItem.id === item.id)) {
-    //     heart.classList.add('toggle-heart');
-    // }
+    if (favoritesData[restaurantName] && favoritesData[restaurantName].length > 0) {
+        const favoriteItems = favoritesData[restaurantName];
+        console.log("fav:"+favoriteItems);
+        if (favoriteItems.some(favoriteItem => favoriteItem.id === item.id)) {
+            heart.classList.add('toggle-heart');
+        }
+    } else {
+        console.log('No favorite items for this restaurant');
+    }
 
     // Add event listener for adding to favorites
     heart.addEventListener('click', function() {
@@ -138,6 +143,15 @@ function createItemCard(item,restaurantName) {
     var cart = document.createElement('i');
     cart.setAttribute('class', 'fa fa-cart-plus add-to-cart');
     cart.setAttribute('id', item.id);
+    if (cartData[restaurantName] && cartData[restaurantName].length > 0) {
+        const cartItems = cartData[restaurantName];
+        console.log("fav:"+favoriteItems);
+        if (cartItems.some(favoriteItem => favoriteItem.id === item.id)) {
+            cart.classList.add('toggle-heart');
+        }
+    } else {
+        console.log('No items in cart for this restaurant');
+    }
     cart.addEventListener('click', function() {
         addToCart(item, restaurantName);
       });
@@ -543,10 +557,103 @@ function cartItems() {
         var checkoutBtn = document.createElement('button');
         checkoutBtn.className = 'checkout-btn cart-btn';
         checkoutBtn.textContent = 'Checkout';
+        checkoutBtn.addEventListener('click',function(){
+            checkout(restaurantName);
+        })
         btnBox.appendChild(checkoutBtn);
     }
 }
 
+let selectedOrder = {};
+function checkout(restaurantName){
+    if(cartData[restaurantName]){
+        document.getElementById('food-items').style.display='none';
+        document.getElementById('cart-page').style.display = 'none';
+        document.getElementById('checkout').style.display = 'none';
+        document.getElementById('favorites-page').style.display = 'none';
+        document.getElementById('profile-section').style.display = 'none'
+        document.getElementById('orders').style.display = 'none';
+        document.getElementById('checkoutContainer').style.display = 'block';
+        const userData = localStorage.getItem('user');
+        const user = JSON.parse(userData);
+        const now = new Date();
+        const isoString = now.toISOString();
+        selectedOrder = {
+            orderId: generateOrderId(),
+            customerName: user.name,
+            deliveryAddress: user.address,
+            dateOrdered: isoString,
+            restaurantName: restaurantName,
+            itemsOrdered: cartData[restaurantName],
+            totalPrice: calculateTotalPrice(restaurantName),
+            orderStatus: 'Placed'
+        };
+        console.log(selectedOrder);
+
+        showOrderPopup(selectedOrder);
+
+    }
+    else{
+        alert('Your cart is empty');
+    }
+}
+
+function generateOrderId() {
+    return Math.floor(Math.random() * 10000); // Simple random ID for demonstration
+}
+
+function calculateTotalPrice(restaurantName){
+    let sum =0;
+    cartData[restaurantName].forEach(item=>{
+        sum += item.price;
+    })
+    return  sum;
+}
+
+
+function showOrderPopup(order) {
+    const  orderElement = document.getElementById('checkoutContainer');
+    orderElement.style.marginLeft = '20px';
+    const orderDetailsContainer = document.getElementById('orderDetailsContainer');
+    
+    // Clear existing content
+    orderDetailsContainer.innerHTML = '';
+    orderDetailsContainer.style.marginLeft = '20px';
+    // Create order details elements with Bootstrap classes
+    const orderDetailsHtml = `
+        <div class="mb-3">
+            <h4 class="text-primary">Order #${order.orderId}</h4>
+            <p><strong>Customer Name:</strong> ${order.customerName}</p>
+            <p><strong>Address:</strong> ${order.deliveryAddress}</p>
+            <p><strong>Date Ordered:</strong> ${order.dateOrdered}</p>
+            <p><strong>Restaurant Name:</strong> ${order.restaurantName}</p>
+        </div>
+
+        <div class="mb-4">
+            <h5 class="text-secondary">Items Ordered:</h5>
+            <ul class="list-group mb-3">
+                ${order.itemsOrdered.map(item => `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${item.name} x${item.quantity}
+                        <span class="badge badge-primary badge-pill">₹${(item.price / item.quantity).toFixed(2)}</span>
+                    </li>
+                `).join('')}
+            </ul>
+            <p class="font-weight-bold">Total Price: ₹${order.totalPrice.toFixed(2)}</p>
+        </div>
+
+        <div class="mb-3">
+            <p><strong>Order Status:</strong> 
+                <span class="badge badge-${order.orderStatus === 'Delivered' ? 'success' : 'warning'}">
+                    ${order.orderStatus}
+                </span>
+            </p>
+        </div>
+    `;
+
+    // Set the content of the popup
+    orderDetailsContainer.innerHTML = orderDetailsHtml;
+}
 
 document.getElementById('add-address').addEventListener('click',addAddress);
 
@@ -760,3 +867,137 @@ document.getElementById('wishlist-link').addEventListener('click',function(){
     favoriteToggle();
 });
 displayRestaurants();
+
+
+document.querySelector('#confirmOrderBtn').addEventListener('click', function() {
+    // Add the order to the orders dataset (replace this with your actual logic)
+    addOrderToDataset(selectedOrder);
+    // Select all elements with the class 'fa fa-cart-plus add-to-cart toggle-heart'
+    const elements = document.querySelectorAll('.fa.fa-cart-plus.add-to-cart.toggle-heart');
+// Iterate over the selected elements
+    elements.forEach(element => {
+    // Remove the 'toggle-heart' class
+        element.classList.remove('toggle-heart');
+    });
+    // cartData = []
+    
+    // Hide the modal
+    $('#checkoutModal').modal('hide');
+    console.log('hello')
+    displayOrderItems();
+});
+function addOrderToDataset(selectedOrder){
+    if(selectedOrder!=null){
+        orders.push(selectedOrder);
+        delete cartData[selectedOrder.restaurantName];
+        document.getElementById('cart-plus').innerText = ' ' + Object.values(cartData).reduce((acc, restaurantItems) => acc + restaurantItems.length, 0) + ' Items';
+        alert('Order placed successfully')
+    }
+    else{
+        alert('Please select an item to order')
+    }
+}
+
+function displayOrderItems(){
+    const container = document.getElementById('orders');
+    container.innerHTML = '';
+    document.getElementById('food-items').style.display='none';
+    document.getElementById('cart-page').style.display = 'none';
+    document.getElementById('checkout').style.display = 'none';
+    document.getElementById('favorites-page').style.display = 'none';
+    document.getElementById('profile-section').style.display = 'none';
+    document.getElementById('orders').style.display = 'block';
+    document.getElementById('checkoutContainer').style.display = 'none';
+    
+    if(orders.length>0){
+        const title = document.createElement('div')
+        title.id = 'orders-title';
+        title.innerHTML = 'Orders';
+        container.append(title)
+        title.className = 'container-sm'
+        orders.forEach(order => {
+            createOrderCard(order)
+        })
+    }
+    else{
+        alert("Item not found in orders!");
+    }
+    
+}
+document.getElementById('order').addEventListener('click',displayOrderItems)
+
+function createOrderCard(order) {
+    const container = document.getElementById('orders');
+    
+    // Create card element using Bootstrap card class
+    
+    const card = document.createElement('div');
+    card.setAttribute('id','order-card')
+    card.className = 'card mb-3 shadow-sm';
+
+    // Create card body
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Create order header using Bootstrap's heading and card-title classes
+    const header = document.createElement('h5');
+    header.className = 'card-title';
+    header.innerText = `Order #${order.orderId}`;
+    cardBody.appendChild(header);
+
+    // Create order details section
+    const details = document.createElement('p');
+    details.innerHTML = `<strong>Customer Name:</strong> ${order.customerName}<br>
+                         <strong>Delivery Address:</strong> ${order.deliveryAddress}<br>
+                         <strong>Date Ordered:</strong> ${order.dateOrdered}<br>
+                         <strong>Restaurant Name:</strong> ${order.restaurantName}`;
+    cardBody.appendChild(details);
+
+    // Create items ordered list
+    const itemsList = document.createElement('ul');
+    itemsList.className = 'list-group list-group-flush mb-3'; // Add spacing between list and total price
+    // Create items title
+    const itemsTitle = document.createElement('strong');
+    itemsTitle.innerText = 'Items:';
+    cardBody.appendChild(itemsTitle);
+    order.itemsOrdered.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.innerText = `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}`;
+        itemsList.appendChild(listItem);
+    });
+    cardBody.appendChild(itemsList);
+
+    // Total price
+    const totalPrice = document.createElement('div');
+    totalPrice.className = 'card-footer text-muted';
+    totalPrice.innerHTML = `<strong>Total Price:</strong> ₹${order.totalPrice.toFixed(2)}`;
+    cardBody.appendChild(totalPrice);
+
+    // Order status using Bootstrap badge for highlighting
+    const status = document.createElement('div');
+    status.className = `badge ${getStatusBadgeClass(order.orderStatus)} mt-3`; // Use different colors for different statuses
+    status.innerHTML= `<strong>Order Status:</strong> ${order.orderStatus}`;
+    cardBody.appendChild(status);
+
+    // Append card body to card
+    card.appendChild(cardBody);
+
+    // Append card to container
+    container.insertBefore(card, container.firstChild.nextSibling)
+}
+
+function getStatusBadgeClass(status) {
+    switch (status) {
+      case 'pending':
+        return 'badge-warning';
+      case 'in_progress':
+        return 'badge-info';
+      case 'delivered':
+        return 'badge-success';
+      case 'cancelled':
+        return 'badge-danger';
+      default:
+        return 'badge-secondary';
+    }
+  }
