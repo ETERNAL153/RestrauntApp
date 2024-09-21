@@ -140,7 +140,7 @@ body{
 #category-name,.item-menu{
     margin: 10px;
     font-size: 35px;   
-    color: coral;
+    color: indianred;
     font-family: 'Aclonica', sans-serif;
 }
 #item-card{
@@ -629,6 +629,83 @@ color: rgb(255, 255, 255);
     margin: 0;
     padding: 5px 0;
 }
+
+
+
+#restaurant-card {
+    width: 180px;
+    height: 300px;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.5s all step-end;
+}
+
+#restaurant-card:hover {
+    transform: scale(1.1);
+    background: rgb(240, 255, 240); /* Same hover background color as item cards */
+}
+
+#restaurant-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+#restaurant-card .card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#restaurant-card .card-text {
+    font-size: 14px;
+    color: #666;
+}
+
+
+#welcome-container {
+    width: 100%;
+    height: 750px;
+    background-image: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1)), url('https://t4.ftcdn.net/jpg/03/10/16/27/360_F_310162798_6hWbaSFgDtWp4AhhaKPlTgAZUDL1c4UY.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.welcome-note {
+    text-align: center;
+    color:indianred;
+}
+
+.welcome-note h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.welcome-note p {
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+
+
+
+
 
 @media screen and (max-width : 400px) and (-webkit-min-device-pixel-ratio: 2){
     #mobile-view{

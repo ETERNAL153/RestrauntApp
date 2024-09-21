@@ -39,7 +39,8 @@ document.getElementById('loginForm')?.addEventListener('submit', function(event)
    // Check if credentials match
    if (username === storedUsername && password === storedPassword) {
        alert('Login successful!');
-       window.location.href = 'home.html'; // Redirect to home page
+    //    window.location.href = 'home.html'; // Redirect to home page
+       window.location.href = 'main.html';
    } else {
        alert('Invalid username or password');
    }
