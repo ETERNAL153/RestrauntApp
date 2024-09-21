@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
+    <title>Food Website</title>
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <!-- desktop view -->
+    <div class="container" id="container">
+        <div id="menu">
+            <div class="title">
+                <img src="https://i.ibb.co/tzFn3gS/Whats-App-Image-2024-09-07-at-00-04-07-removebg-preview.png" alt="logo">
+            </div>
+            <div class="menu-item">
+                <a href="#" id="home">Home</a>
+                <a href="#" id="order" >Your Orders</a>
+                <a href="#" id="wishlist-link">Wishlists</a>
+                <a href="#" id="cart">Cart</a>
+                <a href="https://www.youtube.com/@Cookwithpramod">Watch our cooking here</a>
+            </div>
+        </div>
+
+        <div id="food-container">
+            <div id="header">
+                <div class="add-box">
+                    <i class="fa fa-map-marker your-address" id="add-address"> Your Address</i>
+                </div>
+                <div class="util">
+                    <input type="text" class="search-box" id="search-input" hidden placeholder="Search for food items..." />
+                    <i class="fa fa-cart-plus" id="cart-plus"> 0 Items</i>
+                </div>
+            </div>
+            <div id="food-items" class="d-food-items">
+                <div id="welcome-container">
+                    <div class="welcome-note">
+                        <h1>Welcome to Foodie!</h1>
+                        <p>Discover the best restaurants and cuisines in your area.</p>
+                    </div>
+                </div>
+                <div  id="restrauants">
+                    <p id="category-name">Restrauants near you</p>    
+                </div>
+                <div id="menu-items-container">
+                    <!-- menu items will be added here -->
+                </div>
+                <div id="search-result" class="d-search">
+                    
+                </div>
+            </div>
+
+            <!-- Cart Page -->
+            <div id="cart-page" class="cart-toggle">
+                <!-----Cart items added here -->
+            </div>
+            <!-- Orders Section (Different Layout) -->
+            <div id="orders" class="container mt-5">
+                <p id="orders-title">Orders</p>
+            </div>
+            <!-- Favorites Page -->
+            <div id="favorites-page" class="favorites-toggle">
+                <p id="favorites-title">Favorites</p>
+            </div>
+            <!-- User Profile Section -->
+            <div id="profile-section" class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h2 class="card-title text-center">User Profile</h2>
+                            <div id="profile-info">
+                                <!-- User profile info will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div id="checkoutContainer" class="container mt-5">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h1 class="h5 mb-0">Order Summary</h1>
+                    </div>
+                    <div class="card-body">
+                        <div id="orderDetailsContainer">
+                            <!-- Your order details will be inserted here dynamically -->
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary cart-btn" onclick="hideOrderSummary()">Cancel</button>
+                        <button type="button" id="confirmOrderBtn" class="btn btn-primary cart-btn">Confirm Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Cart Section (Different Layout) -->
+        <div id="cart">
+            <div class="taste-header">
+                <div class="user">
+                    <i class="fa fa-user-circle" id="circle"> Account</i>
+                </div>
+            </div>
+            <div id="checkout" class="cart-toggle">
+                <p id="total-item">Total Items: 5</p>
+                <p id="total-price"></p>
+                <p id="delivery">Free delivery on above ₹40</p>
+                <button class="checkout-btn cart-btn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/main.js" type="module"></script>
+</body>
+</html>
