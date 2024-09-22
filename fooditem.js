@@ -27,32 +27,6 @@ const orders = [
       orderStatus: "Placed",
     },
     {
-      orderId: 5332,
-      customerName: "Ram",
-      deliveryAddress: "123 indiera",
-      dateOrdered: "2024-09-21T20:15:26.786Z",
-      restaurantName: "Pizza Hut",
-      itemsOrdered: [
-        {
-          name: "Ambur Biryani",
-          quantity: 1,
-          price: 150,
-        },
-        {
-          name: "Hyderabadi Biryani",
-          quantity: 1,
-          price: 160,
-        },
-        {
-          name: "Egg Biryani",
-          quantity: 1,
-          price: 120,
-        },
-      ],
-      totalPrice: 430,
-      orderStatus: "Placed",
-    },
-    {
       orderId: 5333,
       customerName: "Ram",
       deliveryAddress: "123 indiera",
@@ -76,32 +50,6 @@ const orders = [
         },
       ],
       totalPrice: 890,
-      orderStatus: "Placed",
-    },
-    {
-      orderId: 5334,
-      customerName: "Ram",
-      deliveryAddress: "123 indiera",
-      dateOrdered: "2024-09-21T20:15:26.786Z",
-      restaurantName: "Pizza Hut",
-      itemsOrdered: [
-        {
-          name: "Chicken Curry",
-          quantity: 1,
-          price: 100,
-        },
-        {
-          name: "Chicken Do Pyaza",
-          quantity: 1,
-          price: 140,
-        },
-        {
-          name: "Chicken Masala",
-          quantity: 1,
-          price: 120,
-        },
-      ],
-      totalPrice: 360,
       orderStatus: "Placed",
     },
     {
@@ -129,85 +77,8 @@ const orders = [
       ],
       totalPrice: 700,
       orderStatus: "Placed",
-    },
-    {
-      orderId: 5336,
-      customerName: "Ram",
-      deliveryAddress: "123 indiera",
-      dateOrdered: "2024-09-21T20:15:26.786Z",
-      restaurantName: "Pizza Hut",
-      itemsOrdered: [
-        {
-          name: "Hyderabadi Paneer",
-          quantity: 1,
-          price: 250,
-        },
-        {
-          name: "Paneer Lababdar",
-          quantity: 1,
-          price: 270,
-        },
-        {
-          name: "Shahi Paneer",
-          quantity: 1,
-          price: 260,
-        },
-      ],
-      totalPrice: 780,
-      orderStatus: "Placed",
-    },
-    {
-      orderId: 5337,
-      customerName: "Ram",
-      deliveryAddress: "123 indiera",
-      dateOrdered: "2024-09-21T20:15:26.786Z",
-      restaurantName: "Pizza Hut",
-      itemsOrdered: [
-        {
-          name: "Navratan Korma",
-          quantity: 1,
-          price: 350,
-        },
-        {
-          name: "Veg Biryani",
-          quantity: 1,
-          price: 130,
-        },
-        {
-          name: "Veg Curry",
-          quantity: 1,
-          price: 100,
-        },
-      ],
-      totalPrice: 580,
-      orderStatus: "Placed",
-    },
-    {
-      orderId: 5338,
-      customerName: "Ram",
-      deliveryAddress: "123 indiera",
-      dateOrdered: "2024-09-21T20:15:26.786Z",
-      restaurantName: "Pizza Hut",
-      itemsOrdered: [
-        {
-          name: "Veg Masala",
-          quantity: 1,
-          price: 90,
-        },
-        {
-          name: "Veg Pakora",
-          quantity: 1,
-          price: 80,
-        },
-        {
-          name: "Momos",
-          quantity: 1,
-          price: 80,
-        },
-      ],
-      totalPrice: 250,
-      orderStatus: "Placed",
-    }]
+    }
+    ]
 const restaurants = [
     {
         "name": "Burger King",
@@ -216,6 +87,7 @@ const restaurants = [
         "phone": "555-555-5555",
         "email": "bk@example.com",
         "rating": 4.5,
+        "location": "https://google.com/",
         "itemsAvailables": [
             {
                 id: 1,
@@ -535,6 +407,7 @@ const restaurants = [
         "phone": "555-123-4567",
         "email": "mcd@example.com",
         "rating": 4.2,
+        "location": "https://google.com/",
         "itemsAvailables": [
             {
                 id: 1,
@@ -871,6 +744,7 @@ const restaurants = [
         "phone": "555-901-2345",
         "email": "kfc@example.com",
         "rating": 4.8,
+        "location": "https://google.com/",
         "itemsAvailables": [
             {
                 id: 1,
@@ -1199,6 +1073,7 @@ const restaurants = [
         "phone": "555-111-2222",
         "email": "subway@example.com",
         "rating": 4.1,
+        "location": "https://google.com/",
         "itemsAvailables": [
             {
                 id: 1,
@@ -1609,6 +1484,7 @@ const restaurants = [
         "phone": "555-777-8888",
         "email": "pizzahut@example.com",
         "rating": 4.6,
+        "location": "https://google.com/",
         "itemsAvailables": [
             {
                 id: 1,

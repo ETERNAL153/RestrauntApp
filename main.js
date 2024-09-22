@@ -255,6 +255,7 @@ function decrementItem(restaurantName,itemToInc) {
                 document.getElementById('profile-section').style.display = 'none';
                 document.getElementById('orders').style.display = 'none';
                 document.getElementById('checkoutContainer').style.display = 'none';
+                document.getElementById('contact-section').style.display = 'none';
                 flag = false;
                 alert("Currently no item in cart!");
                 callHome()
@@ -303,6 +304,7 @@ function cartToggle() {
         document.getElementById('profile-section').style.display = 'none';
         document.getElementById('orders').style.display = 'none';
         document.getElementById('checkoutContainer').style.display = 'none';
+        document.getElementById('contact-section').style.display = 'none';
 
         flag = true;
         console.log(flag);
@@ -322,6 +324,7 @@ function favoriteToggle() {
         document.getElementById('profile-section').style.display = 'none';
         document.getElementById('orders').style.display = 'none';
         document.getElementById('checkoutContainer').style.display = 'none';
+        document.getElementById('contact-section').style.display = 'none';
     } else {
         alert("Currently no item in favorites!");
     }
@@ -574,6 +577,7 @@ function checkout(restaurantName){
         document.getElementById('profile-section').style.display = 'none'
         document.getElementById('orders').style.display = 'none';
         document.getElementById('checkoutContainer').style.display = 'block';
+        document.getElementById('contact-section').style.display = 'none';
         const userData = localStorage.getItem('user');
         const user = JSON.parse(userData);
         const now = new Date();
@@ -717,6 +721,7 @@ function callHome(){
     document.getElementById('profile-section').style.display = 'none';
     document.getElementById('checkout').style.display = 'none';
     document.getElementById('checkoutContainer').style.display = 'none';
+    document.getElementById('contact-section').style.display = 'none';
 }
 
 function addToCart(item, restaurantName) {
@@ -754,6 +759,7 @@ function displayUserProfile() {
     document.getElementById('profile-section').style.display = 'block'
     document.getElementById('orders').style.display = 'none';
     document.getElementById('checkoutContainer').style.display = 'none';
+    document.getElementById('contact-section').style.display = 'none';
     const userData = localStorage.getItem('user');
 
     // Check if user data exists
@@ -908,6 +914,7 @@ function displayOrderItems(){
     document.getElementById('profile-section').style.display = 'none';
     document.getElementById('orders').style.display = 'block';
     document.getElementById('checkoutContainer').style.display = 'none';
+    document.getElementById('contact-section').style.display = 'none';
     
     if(orders.length>0){
         const title = document.createElement('div')
@@ -1001,3 +1008,76 @@ function getStatusBadgeClass(status) {
         return 'badge-secondary';
     }
   }
+
+// Function to display contact details
+function displayContactDetails() {
+    // Hide other sections
+    document.getElementById('food-items').style.display = 'none';
+    document.getElementById('cart-page').style.display = 'none';
+    document.getElementById('favorites-page').style.display = 'none';
+    document.getElementById('orders').style.display = 'none';
+    document.getElementById('checkoutContainer').style.display = 'none';
+    document.getElementById('profile-section').style.display = 'none';
+
+    // Show contact section
+    const contactSec = document.getElementById('contact-section')
+    contactSec.style.display = 'block';
+
+    // Clear existing contact details
+    contactSec.innerHTML = '';
+    const title = document.createElement('p');
+    title.id = 'contact-title';
+    title.textContent = 'Contacts';
+    contactSec.append(title)
+
+    const contactList = document.createElement('div');
+    contactList.id =  'contact-details';
+    contactList.style.display = 'flex'; // Add display flex to the contact list
+    contactList.style.flexWrap = 'wrap'; // Add flex wrap to the contact list
+    contactList.style.justifyContent = 'space-around'; // Add justify content to the contact list
+
+    contactSec.append(contactList);
+    // Iterate through the restaurants and display their contact details
+    restaurants.forEach((restaurant) => {
+        const contactCard = createContactCard(restaurant);
+        document.getElementById('contact-details').appendChild(contactCard);
+    });
+}
+
+// Function to create a contact card
+// Function to create a contact card
+function createContactCard(restaurant) {
+    const contactCard = document.createElement('div');
+    contactCard.setAttribute('id', 'contact-card');
+    contactCard.className = 'card mb-3 shadow-sm';
+
+    contactCard.style.backgroundColor = 'whitesmoke';
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    const header = document.createElement('h5');
+    header.className = 'card-title';
+    header.innerText = restaurant.name;
+
+    const details = document.createElement('p');
+    details.className = 'card-text';
+    details.innerHTML = `<strong>Address:</strong> ${restaurant.address}<br>
+                      <strong>Phone Number:</strong> ${restaurant.phone}<br>
+                      <strong>Email:</strong> ${restaurant.email}<br>
+                      <strong>Location:</strong><a href="${restaurant.location}" target="_blank"><i class="fa fa-map-marker" ></i></a> <br>
+                      <strong>Rating:</strong> ${restaurant.rating}`;
+    cardBody.appendChild(header);
+    cardBody.appendChild(details);
+
+    const img = document.createElement('img');
+    img.src = restaurant.img;
+    img.alt = restaurant.name;
+    img.className = 'card-img-top';
+
+    contactCard.appendChild(img);
+    contactCard.appendChild(cardBody);
+
+    return contactCard;
+}
+
+document.getElementById('contact').addEventListener('click', displayContactDetails);
